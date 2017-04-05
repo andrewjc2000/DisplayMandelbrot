@@ -5,13 +5,16 @@
  */
 package launcher;
 
+import java.awt.Dimension;
 import javax.swing.JFrame;
 import math.ComplexComputation;
 import math.CxNum;
 
-public class DisplayMandelbrotSet extends JFrame {
+public class DisplayMandelbrotSet {
     
     public static boolean board[][];
+    public static JFrame frame;
+    
     
     public static void main(String[] args) {
         board = new boolean[650][1000];
@@ -47,6 +50,17 @@ public class DisplayMandelbrotSet extends JFrame {
                 }
             }
         }
+    }
+    
+    public static void setupFrame(){
+        frame = new JFrame();
+        frame.setTitle("Mandelbrot Explorer V. 1.0");
+        frame.setSize(1000, 650);
+        frame.setResizable(false);
+        frame.setSize(1000, 650);
+        frame.setLocationRelativeTo(null);
+        frame.setMinimumSize(new Dimension(1000, 650));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
     
