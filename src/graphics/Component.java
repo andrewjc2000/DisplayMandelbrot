@@ -42,7 +42,7 @@ public class Component extends JComponent implements ActionListener, MouseListen
         if(!updating){
             g.drawImage(pic, 0, 0, null);
             g.setColor(selector);
-            g.fillRect(Globals.mouseX - 50, Globals.mouseY - 50, 100, 100);
+            g.fillRect(Globals.mouseX - 53, Globals.mouseY - 75, 100, 100);
         }
         else{
             g.setColor(Color.white);
@@ -71,7 +71,17 @@ public class Component extends JComponent implements ActionListener, MouseListen
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        
+        double minR = Globals.minR + (((e.getX() - 53) / (double)Globals.frameWidth) * (Globals.maxR - Globals.minR));
+        double maxR = minR + (.1 * (Globals.maxR - Globals.minR));
+        double minI = Globals.minI + (((e.getY() - 75) / (double)Globals.frameHeight) * (Globals.maxI - Globals.minI));
+        double maxI = minI + (.1 * (Globals.maxI - Globals.minI));
+        Globals.minR = minR;
+        Globals.maxR = maxR;
+        Globals.minI = minI;
+        Globals.maxI = maxI;
+        updating = true;
+        DisplayMandelbrotSet.generate();
+        updateImage(DisplayMandelbrotSet.board);
     }
 
     @Override

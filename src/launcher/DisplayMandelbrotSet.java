@@ -22,11 +22,15 @@ public class DisplayMandelbrotSet {
         display = new Component();
         Globals.frameHeight = 650;
         Globals.frameWidth = 1000;
-        generate(-1.75, 1.0, -1, 1);
+        Globals.minR = -1.75;
+        Globals.maxR = 1.0;
+        Globals.minI = -1.0;
+        Globals.maxI = 1.0;
+        generate();
         display.updateImage(board);
         setupFrame();
-        generate(-1.75, 1.0, -1, 1);
-        display.updateImage(board);
+        //generate();
+        //display.updateImage(board);
         
         /*for(int i = 0;i < 650;i++){
             for(int j = 0;j < 1000;j++){
@@ -38,17 +42,19 @@ public class DisplayMandelbrotSet {
     
     
     
-    public static void generate(double minR, double maxR, double minI, double maxI){
+    public static void generate(){
         //i is imaginary;r is real
-        display.updating = true;
         Globals.max = Globals.frameHeight * Globals.frameWidth;
         Globals.progress = 0;
+        display.updating = true;
         for(int i = 0;i < Globals.frameHeight;i++){
             for(int r = 0;r < Globals.frameWidth;r++){
                 CxNum z = new CxNum(0.0, 0.0);//these are always the starting values!
-                CxNum c = new CxNum(minR + (r * (maxR - minR) / (double)Globals.frameWidth), minI + (i * (maxI - minI) / (double)Globals.frameHeight));
+                CxNum c = new CxNum(
+                        Globals.minR + (r * (Globals.maxR - Globals.minR) / (double)Globals.frameWidth), 
+                        Globals.minI + (i * (Globals.maxI - Globals.minI) / (double)Globals.frameHeight));
                 int j = 0;
-                while(z.abs() < 2 && j < 1000){
+                while(z.abs() < 2 && j < 7000){
                     z = math.ComplexComputation.mFunction(z, c);
                     j++;
                 }
