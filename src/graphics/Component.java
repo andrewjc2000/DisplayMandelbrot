@@ -26,14 +26,17 @@ public class Component extends JComponent implements ActionListener, MouseListen
     private final BufferedImage pic;
     private final Font font;
     private final Color selector;
+    private final int boxWidth, boxHeight;
     public boolean updating;
     
     public Component(){
         timer = new Timer(10, this);
-        pic = new BufferedImage(1000, 650, BufferedImage.TYPE_INT_ARGB);
+        pic = new BufferedImage(Globals.frameWidth, Globals.frameHeight, BufferedImage.TYPE_INT_ARGB);
         updating = true;
         font = new Font("Monospaced", Font.BOLD, 64);
         selector = new Color(0, 0, 255, 127);
+        boxWidth = (int)Math.round(0.1 * Globals.frameWidth);
+        boxHeight = (int)Math.round(0.1 * Globals.frameHeight);
     }
     
     @Override
@@ -42,7 +45,7 @@ public class Component extends JComponent implements ActionListener, MouseListen
         if(!updating){
             g.drawImage(pic, 0, 0, null);
             g.setColor(selector);
-            g.fillRect(Globals.mouseX - 53, Globals.mouseY - 75, 100, 100);
+            g.fillRect(Globals.mouseX - 3 - (boxWidth / 2), Globals.mouseY - 25 - (boxHeight / 2), boxWidth, boxHeight);
         }
         else{
             g.setColor(Color.white);
@@ -58,12 +61,10 @@ public class Component extends JComponent implements ActionListener, MouseListen
         repaint();
     }
     
-    public void updateImage(boolean arr[][]){
-        int black = new Color(0, 0, 0).getRGB();
-        int white = new Color(255, 255, 255).getRGB();
-        for(int y = 0;y < 650;y++){
-            for(int x = 0;x < 1000;x++){
-                pic.setRGB(x, y, (arr[y][x] ? black : white));
+    public void updateImage(Color arr[][]){
+        for(int y = 0;y < Globals.frameHeight;y++){
+            for(int x = 0;x < Globals.frameWidth;x++){
+                pic.setRGB(x, y, arr[y][x].getRGB());
             }
         }
         updating = false;
@@ -71,9 +72,9 @@ public class Component extends JComponent implements ActionListener, MouseListen
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        double minR = Globals.minR + (((e.getX() - 53) / (double)Globals.frameWidth) * (Globals.maxR - Globals.minR));
+        double minR = Globals.minR + (((e.getX() - 3 - (boxWidth / 2)) / (double)Globals.frameWidth) * (Globals.maxR - Globals.minR));
         double maxR = minR + (.1 * (Globals.maxR - Globals.minR));
-        double minI = Globals.minI + (((e.getY() - 75) / (double)Globals.frameHeight) * (Globals.maxI - Globals.minI));
+        double minI = Globals.minI + (((e.getY() - 25 - (boxHeight / 2)) / (double)Globals.frameHeight) * (Globals.maxI - Globals.minI));
         double maxI = minI + (.1 * (Globals.maxI - Globals.minI));
         Globals.minR = minR;
         Globals.maxR = maxR;
@@ -81,6 +82,7 @@ public class Component extends JComponent implements ActionListener, MouseListen
         Globals.maxI = maxI;
         updating = true;
         DisplayMandelbrotSet.generate();
+        
         updateImage(DisplayMandelbrotSet.board);
     }
 
