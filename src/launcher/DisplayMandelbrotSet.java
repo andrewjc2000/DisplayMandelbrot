@@ -17,6 +17,7 @@ public class DisplayMandelbrotSet {
     public static Color board[][];
     public static JFrame frame;
     public static Component display;
+    private static Color[] cols;
     
     public static void main(String[] args) {
         Globals.frameHeight = 650;
@@ -25,6 +26,20 @@ public class DisplayMandelbrotSet {
         Globals.maxR = 1.0;
         Globals.minI = -1.0;
         Globals.maxI = 1.0;
+        Globals.maxIt = 2000;
+        cols = new Color[(int)Globals.maxIt];
+        for(int i = 0;i < (2 * Globals.maxIt / 5.0);i++){
+            cols[i] = new Color(255, (int)(255 * ((i * 5.0) / (2.0 * Globals.maxIt))), 0);
+        }
+        for(int i = (int) (2 * Globals.maxIt / 5.0);i < (3 * Globals.maxIt / 5);i++){
+            cols[i] = new Color((int)(255 - ((255 * ((i - (2.0 * Globals.maxIt / 5))) / (Globals.maxIt / 5.0)))), 255, 0);
+        }
+        for(int i = (int) (3 * Globals.maxIt / 5.0);i < (4 * Globals.maxIt / 5);i++){
+            cols[i] = new Color(0, 255, (int)(255.0 * (5.0 * i / (Globals.maxIt * 4.0))));
+        }
+        for(int i = (int)(4 * Globals.maxIt / 5.0);i < Globals.maxIt;i++){
+            cols[i] = new Color(0, (int)(255 - ((255 * ((i - (4.0 * Globals.maxIt / 5))) / (Globals.maxIt / 5.0)))), 255);
+        }
         board = new Color[650][1000];
         display = new Component();
         generate();
@@ -50,6 +65,7 @@ public class DisplayMandelbrotSet {
         display.updating = true;
         double redY = (102.0 / 255.0);
         double ylG = (153.0 / 255.0);
+        double greeT = (204.0 / 255.0);
         for(int i = 0;i < Globals.frameHeight;i++){
             for(int r = 0;r < Globals.frameWidth;r++){
                 CxNum z = new CxNum(0.0, 0.0);//these are always the starting values!
@@ -57,26 +73,15 @@ public class DisplayMandelbrotSet {
                         Globals.minR + (r * (Globals.maxR - Globals.minR) / (double)Globals.frameWidth), 
                         Globals.minI + (i * (Globals.maxI - Globals.minI) / (double)Globals.frameHeight));
                 int j = 0;
-                while(z.abs() < 2 && j < 2000){
+                while(z.abs() < 2 && j < Globals.maxIt){
                     z = math.ComplexComputation.mFunction(z, c);
                     j++;
                 }
                 if(z.abs() <= 2){
-                    board[i][r] = Color.black;
+                    board[i][r] = Color.blue;
                 }
                 else{
-                    Color col;
-                    double scaled = (j / 2000.0);
-                    if(scaled < redY){
-                        col = new Color(255, (int)(scaled * 5), 0);
-                    }
-                    //else if(scaled >= redY && scaled < ylG){
-                    //    col = new Color(255 -, 255, 0);
-                    //}
-                    else{
-                        col = new Color(0, 0, 255);
-                    }
-                    board[i][r] = col;
+                    board[i][r] = cols[j - 1];
                 }
                 Globals.progress++;
             }
