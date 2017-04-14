@@ -9,6 +9,7 @@ import graphics.Component;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JFrame;
+import javax.swing.SwingWorker;
 import math.ComplexComputation;
 import math.CxNum;
 
@@ -18,6 +19,7 @@ public class DisplayMandelbrotSet {
     public static JFrame frame;
     public static Component display;
     private static Color[] cols;
+    public static Thread generator;
     
     public static void main(String[] args) {
         Globals.frameHeight = 650;
@@ -26,7 +28,7 @@ public class DisplayMandelbrotSet {
         Globals.maxR = 1.0;
         Globals.minI = -1.0;
         Globals.maxI = 1.0;
-        Globals.maxIt = 2000;
+        Globals.maxIt = 1000;
         cols = new Color[(int)Globals.maxIt];
         for(int i = 0;i < (2 * Globals.maxIt / 5.0);i++){
             cols[i] = new Color(255, (int)(255 * ((i * 5.0) / (2.0 * Globals.maxIt))), 0);
@@ -42,8 +44,7 @@ public class DisplayMandelbrotSet {
         }
         board = new Color[650][1000];
         display = new Component();
-        generate();
-        display.updateImage(board);
+        startGenerator();
         setupFrame();
         //generate();
         //display.updateImage(board);
@@ -56,16 +57,26 @@ public class DisplayMandelbrotSet {
         }*/
     }
     
-    
+    public static void startGenerator(){
+        generator = new Thread(){
+            @Override
+            public void run(){
+                generate();
+            }
+        };
+        generator.start();
+    }
     
     public static void generate(){
         //i is imaginary;r is real
         Globals.max = Globals.frameHeight * Globals.frameWidth;
         Globals.progress = 0;
-        display.updating = true;
-        double redY = (102.0 / 255.0);
-        double ylG = (153.0 / 255.0);
-        double greeT = (204.0 / 255.0);
+        //display.updating = true;
+        
+        //double redY = (102.0 / 255.0);
+        //double ylG = (153.0 / 255.0);
+        //double greeT = (204.0 / 255.0);
+        
         for(int i = 0;i < Globals.frameHeight;i++){
             for(int r = 0;r < Globals.frameWidth;r++){
                 CxNum z = new CxNum(0.0, 0.0);//these are always the starting values!
@@ -85,7 +96,9 @@ public class DisplayMandelbrotSet {
                 }
                 Globals.progress++;
             }
+            display.updateImage(board[i], i);
         }
+        display.updating = false;
     }
     
     public static void setupFrame(){

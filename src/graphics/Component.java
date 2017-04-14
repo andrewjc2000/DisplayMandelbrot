@@ -33,7 +33,7 @@ public class Component extends JComponent implements ActionListener, MouseListen
         timer = new Timer(10, this);
         pic = new BufferedImage(Globals.frameWidth, Globals.frameHeight, BufferedImage.TYPE_INT_ARGB);
         updating = true;
-        font = new Font("Monospaced", Font.BOLD, 64);
+        font = new Font("Monospaced", Font.BOLD, 40);
         selector = new Color(0, 0, 255, 127);
         boxWidth = (int)Math.round(0.1 * Globals.frameWidth);
         boxHeight = (int)Math.round(0.1 * Globals.frameHeight);
@@ -42,18 +42,21 @@ public class Component extends JComponent implements ActionListener, MouseListen
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        if(!updating){
+        /*if(!updating){
             g.drawImage(pic, 0, 0, null);
             g.setColor(selector);
             g.fillRect(Globals.mouseX - 3 - (boxWidth / 2), Globals.mouseY - 25 - (boxHeight / 2), boxWidth, boxHeight);
-        }
-        else{
-            g.setColor(Color.white);
-            g.fillRect(0, 0, Globals.frameWidth, Globals.frameHeight);
+        }*/
+        //else{
+            g.drawImage(pic, 0, 0, null);
+            g.setColor(selector);
+            g.fillRect(Globals.mouseX - 3 - (boxWidth / 2), Globals.mouseY - 25 - (boxHeight / 2), boxWidth, boxHeight);
+            //g.setColor(Color.white);
+            //g.fillRect(0, 0, Globals.frameWidth, Globals.frameHeight);
             g.setColor(Color.black);
             g.setFont(font);
-            g.drawString("Progress: " + (int)Math.round(100 * ((double)Globals.progress / (double)Globals.max)) + "%", 200, 100);
-        }
+            g.drawString("Progress: " + (int)Math.round(100 * ((double)Globals.progress / (double)Globals.max)) + "%", 0, 40);
+        //}
     }
     
     @Override
@@ -61,29 +64,29 @@ public class Component extends JComponent implements ActionListener, MouseListen
         repaint();
     }
     
-    public void updateImage(Color arr[][]){
-        for(int y = 0;y < Globals.frameHeight;y++){
-            for(int x = 0;x < Globals.frameWidth;x++){
-                pic.setRGB(x, y, arr[y][x].getRGB());
-            }
+    public void updateImage(Color arr[], int rowNum){
+        //for(int y = 0;y < Globals.frameHeight;y++){
+        for(int x = 0;x < Globals.frameWidth;x++){
+            pic.setRGB(x, rowNum, arr[x].getRGB());
         }
-        updating = false;
+        //}
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        double minR = Globals.minR + (((e.getX() - 3 - (boxWidth / 2)) / (double)Globals.frameWidth) * (Globals.maxR - Globals.minR));
-        double maxR = minR + (.1 * (Globals.maxR - Globals.minR));
-        double minI = Globals.minI + (((e.getY() - 25 - (boxHeight / 2)) / (double)Globals.frameHeight) * (Globals.maxI - Globals.minI));
-        double maxI = minI + (.1 * (Globals.maxI - Globals.minI));
-        Globals.minR = minR;
-        Globals.maxR = maxR;
-        Globals.minI = minI;
-        Globals.maxI = maxI;
-        updating = true;
-        DisplayMandelbrotSet.generate();
-        
-        updateImage(DisplayMandelbrotSet.board);
+        if(!updating){
+            updating = true;
+            double minR = Globals.minR + (((e.getX() - 3 - (boxWidth / 2)) / (double)Globals.frameWidth) * (Globals.maxR - Globals.minR));
+            double maxR = minR + (.1 * (Globals.maxR - Globals.minR));
+            double minI = Globals.minI + (((e.getY() - 25 - (boxHeight / 2)) / (double)Globals.frameHeight) * (Globals.maxI - Globals.minI));
+            double maxI = minI + (.1 * (Globals.maxI - Globals.minI));
+            Globals.minR = minR;
+            Globals.maxR = maxR;
+            Globals.minI = minI;
+            Globals.maxI = maxI;
+            DisplayMandelbrotSet.startGenerator();
+            //updateImage(DisplayMandelbrotSet.board);
+        }
     }
 
     @Override
