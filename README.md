@@ -9,7 +9,7 @@ In mathematics, complex numbers are those which consist of both a real and imagi
 
 The Mandelbrot set is obtained based on the behavior when some complex number c is chosen for the function f(z) given above.  In the case of the Mandelbrot set, z always begins at the value of 0 (0 + 0i).  After f(0) is obtained, f(0) is plugged back into the function f(f(0)).
 
-The “plugging back in” is done many upon many times until the value f(z) begins to diverge and grow exponentially.  It has been proven that once the absolute value of a complex number (goo.gl/xJpSKX) gets larger than 2, the function will diverge and grow exponentially.
+The “plugging back in” is done many upon many times until the value f(z) begins to diverge and grow exponentially.  It has been proven that once the absolute value of a complex number (https://goo.gl/xJpSKX) gets larger than 2, the function will diverge and grow exponentially.
 
 Traditionally, the Mandelbrot Set was used to display the contrasts between values of c that did not grow exponentially and those that did.  In most programs, the x-axis represents the real part of the number, or the a value, and the y-axis represents the imaginary part of the number, or the b value.  Such is the case with this application.
 
