@@ -24,7 +24,7 @@ public class Component extends JComponent implements ActionListener, MouseListen
     
     public final Timer timer;
     private final BufferedImage pic;
-    private final Font font;
+    private final Font font1, font2;
     private final Color selector;
     private final int boxWidth, boxHeight;
     public boolean updating;
@@ -33,7 +33,8 @@ public class Component extends JComponent implements ActionListener, MouseListen
         timer = new Timer(10, this);
         pic = new BufferedImage(Globals.frameWidth, Globals.frameHeight, BufferedImage.TYPE_INT_ARGB);
         updating = true;
-        font = new Font("Monospaced", Font.BOLD, 40);
+        font1 = new Font("Monospaced", Font.BOLD, 40);
+        font2 = new Font("Monospaced", Font.BOLD, 20);
         selector = new Color(0, 0, 255, 127);
         boxWidth = (int)Math.round(0.1 * Globals.frameWidth);
         boxHeight = (int)Math.round(0.1 * Globals.frameHeight);
@@ -54,8 +55,12 @@ public class Component extends JComponent implements ActionListener, MouseListen
             //g.setColor(Color.white);
             //g.fillRect(0, 0, Globals.frameWidth, Globals.frameHeight);
             g.setColor(Color.black);
-            g.setFont(font);
+            g.setFont(font1);
             g.drawString("Progress: " + (int)Math.round(100 * ((double)Globals.progress / (double)Globals.max)) + "%", 0, 40);
+            g.setFont(font2);
+            g.drawString(Globals.minR + " + " + Globals.minI + "i" + " to ", 0, 80);
+            g.drawString(Globals.maxR + " + " + Globals.maxI + "i", 0, 100);
+            
         //}
     }
     

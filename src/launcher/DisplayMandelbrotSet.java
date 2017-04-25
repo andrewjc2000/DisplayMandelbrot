@@ -43,6 +43,17 @@ public class DisplayMandelbrotSet {
             cols[i] = new Color(0, (int)(255 - ((255 * ((i - (4.0 * Globals.maxIt / 5))) / (Globals.maxIt / 5.0)))), 255);
         }
         board = new Color[650][1000];
+        
+        int iter = 0;
+        CxNum num = new CxNum(-.81249240229428, -0.1707141146125446);
+        CxNum z = new CxNum(0.0, 0.0);
+        while(iter <= 2000 && z.abs() < 2){
+            z = math.ComplexComputation.mFunction(z, num);
+            System.out.println(z.str());
+            iter++;
+        }
+        System.out.println(iter);
+        
         display = new Component();
         startGenerator();
         setupFrame();
