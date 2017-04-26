@@ -15,6 +15,7 @@ import math.CxNum;
 
 public class DisplayMandelbrotSet {
     
+    public static int numBoard[][];
     public static Color board[][];
     public static JFrame frame;
     public static Component display;
@@ -42,8 +43,8 @@ public class DisplayMandelbrotSet {
         for(int i = (int)(4 * Globals.maxIt / 5.0);i < Globals.maxIt;i++){
             cols[i] = new Color(0, (int)(255 - ((255 * ((i - (4.0 * Globals.maxIt / 5))) / (Globals.maxIt / 5.0)))), 255);
         }
-        board = new Color[650][1000];
-        
+        board = new Color[Globals.frameHeight][Globals.frameWidth];
+        numBoard = new int[Globals.frameHeight][Globals.frameWidth];
         int iter = 0;
         CxNum num = new CxNum(-.81249240229428, -0.1707141146125446);
         CxNum z = new CxNum(0.0, 0.0);
@@ -101,9 +102,11 @@ public class DisplayMandelbrotSet {
                 }
                 if(z.abs() <= 2){
                     board[i][r] = Color.blue;
+                    numBoard[i][r] = Globals.maxIt;
                 }
                 else{
                     board[i][r] = cols[j - 1];
+                    numBoard[i][r] = j;
                 }
                 Globals.progress++;
             }
@@ -119,7 +122,7 @@ public class DisplayMandelbrotSet {
         frame.setResizable(false);
         frame.setSize(Globals.frameWidth, Globals.frameHeight);
         frame.setLocationRelativeTo(null);
-        frame.setMinimumSize(new Dimension(Globals.frameWidth, Globals.frameHeight));
+        frame.setMinimumSize(new Dimension(Globals.frameWidth + 3, Globals.frameHeight + 25));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         display.timer.start();
         frame.getContentPane().add(display);

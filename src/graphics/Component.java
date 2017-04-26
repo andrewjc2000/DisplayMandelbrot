@@ -60,7 +60,11 @@ public class Component extends JComponent implements ActionListener, MouseListen
             g.setFont(font2);
             g.drawString(Globals.minR + " + " + Globals.minI + "i" + " to ", 0, 80);
             g.drawString(Globals.maxR + " + " + Globals.maxI + "i", 0, 100);
-            
+            if(Globals.mouseX - 3 >= 0 && Globals.mouseX - 3 < Globals.frameWidth &&
+                Globals.mouseY - 25 >= 0 && Globals.mouseY - 25 < Globals.frameHeight    
+            ){
+                g.drawString("" + DisplayMandelbrotSet.numBoard[Globals.mouseY - 25][Globals.mouseX - 3], Globals.mouseX - 3, Globals.mouseY - 45);
+            }
         //}
     }
     

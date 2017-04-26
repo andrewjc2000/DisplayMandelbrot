@@ -20,7 +20,7 @@ public class ComplexComputation {
     }
     
     public static CxNum cPow(CxNum num){
-        return new CxNum(Math.pow(num.r, 2) - Math.pow(num.i, 2), 2 * num.r * num.i);
+        return new CxNum(num.r * num.r - num.i * num.i, 2 * num.r * num.i);
     }
     
     public static CxNum cSin(CxNum num){
