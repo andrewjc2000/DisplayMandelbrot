@@ -8,6 +8,7 @@ package launcher;
 import graphics.Component;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.SwingWorker;
 import math.ComplexComputation;
@@ -23,8 +24,8 @@ public class DisplayMandelbrotSet {
     public static Thread generator;
     
     public static void main(String[] args) {
-        Globals.frameHeight = 650;
-        Globals.frameWidth = 1000;
+        Globals.frameHeight = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 25);
+        Globals.frameWidth = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 3);
         Globals.minR = -1.75;
         Globals.maxR = 1.0;
         Globals.minI = -1.0;

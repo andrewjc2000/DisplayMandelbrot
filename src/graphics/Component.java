@@ -80,14 +80,13 @@ public class Component extends JComponent implements ActionListener, MouseListen
         }
         //}
     }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
+    
+    public void regenerate(){
         if(!updating){
             updating = true;
-            double minR = Globals.minR + (((e.getX() - 3 - (boxWidth / 2)) / (double)Globals.frameWidth) * (Globals.maxR - Globals.minR));
+            double minR = Globals.minR + (((Globals.mouseX - 3 - (boxWidth / 2)) / (double)Globals.frameWidth) * (Globals.maxR - Globals.minR));
             double maxR = minR + (.1 * (Globals.maxR - Globals.minR));
-            double minI = Globals.minI + (((e.getY() - 25 - (boxHeight / 2)) / (double)Globals.frameHeight) * (Globals.maxI - Globals.minI));
+            double minI = Globals.minI + (((Globals.mouseY - 25 - (boxHeight / 2)) / (double)Globals.frameHeight) * (Globals.maxI - Globals.minI));
             double maxI = minI + (.1 * (Globals.maxI - Globals.minI));
             Globals.minR = minR;
             Globals.maxR = maxR;
@@ -96,6 +95,13 @@ public class Component extends JComponent implements ActionListener, MouseListen
             DisplayMandelbrotSet.startGenerator();
             //updateImage(DisplayMandelbrotSet.board);
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        Globals.mouseX = e.getX();
+        Globals.mouseY = e.getY();
+        regenerate();
     }
 
     @Override
