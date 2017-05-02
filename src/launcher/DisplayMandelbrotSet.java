@@ -24,13 +24,12 @@ public class DisplayMandelbrotSet {
     public static Thread generator;
     
     public static void main(String[] args) {
-        Globals.frameHeight = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 25);
-        Globals.frameWidth = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 3);
+        setFrameSize(false);
         Globals.minR = -1.75;
         Globals.maxR = 1.0;
         Globals.minI = -1.0;
         Globals.maxI = 1.0;
-        Globals.maxIt = 1000;
+        Globals.maxIt = 2000;
         cols = new Color[(int)Globals.maxIt];
         for(int i = 0;i < (2 * Globals.maxIt / 5.0);i++){
             cols[i] = new Color(255, (int)(255 * ((i * 5.0) / (2.0 * Globals.maxIt))), 0);
@@ -46,15 +45,6 @@ public class DisplayMandelbrotSet {
         }
         board = new Color[Globals.frameHeight][Globals.frameWidth];
         numBoard = new int[Globals.frameHeight][Globals.frameWidth];
-        int iter = 0;
-        CxNum num = new CxNum(-.81249240229428, -0.1707141146125446);
-        CxNum z = new CxNum(0.0, 0.0);
-        while(iter <= 2000 && z.abs() < 2){
-            z = math.ComplexComputation.mFunction(z, num);
-            System.out.println(z.str());
-            iter++;
-        }
-        System.out.println(iter);
         
         display = new Component();
         startGenerator();
@@ -113,17 +103,31 @@ public class DisplayMandelbrotSet {
             }
             display.updateImage(board[i], i);
         }
+        //Globals.maxIt = ((3 * Globals.maxIt) / 2);
         display.updating = false;
     }
     
-    public static void setupFrame(){
+    public static void setFrameSize(boolean fullScreen){
         frame = new JFrame();
+        if(fullScreen){
+            frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+            frame.setUndecorated(true);
+            Globals.frameWidth = frame.getBounds().width;
+            Globals.frameHeight = frame.getBounds().height;
+            System.out.println(frame.getBounds());
+        }
+        else{
+            Globals.frameWidth = 1000;
+            Globals.frameHeight = 650;
+            frame.setSize(Globals.frameWidth + 3, Globals.frameHeight + 25);
+            frame.setMinimumSize(new Dimension(Globals.frameWidth + 3, Globals.frameHeight + 25));
+        }
+    }
+    
+    public static void setupFrame(){
         frame.setTitle("Mandelbrot Explorer V. 1.0");
-        frame.setSize(Globals.frameWidth, Globals.frameHeight);
-        frame.setResizable(false);
-        frame.setSize(Globals.frameWidth, Globals.frameHeight);
+        frame.setResizable(true);
         frame.setLocationRelativeTo(null);
-        frame.setMinimumSize(new Dimension(Globals.frameWidth + 3, Globals.frameHeight + 25));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         display.timer.start();
         frame.getContentPane().add(display);
@@ -131,6 +135,7 @@ public class DisplayMandelbrotSet {
         frame.addMouseMotionListener(display);
         frame.pack();
         frame.setVisible(true);
+        //System.out.println(frame.getContentPane().getSize());
     }
     
     
