@@ -6,9 +6,11 @@
 package launcher;
 
 import graphics.Component;
+import graphics.CustomColorScheme;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.SwingWorker;
 import math.ComplexComputation;
@@ -20,7 +22,7 @@ public class DisplayMandelbrotSet {
     public static Color board[][];
     public static JFrame frame;
     public static Component display;
-    private static Color[] cols;
+    //private static Color[] cols;
     public static Thread generator;
     
     public static void main(String[] args) {
@@ -30,7 +32,7 @@ public class DisplayMandelbrotSet {
         Globals.minI = -1.0;
         Globals.maxI = 1.0;
         Globals.maxIt = 2000;
-        cols = new Color[(int)Globals.maxIt];
+        /*cols = new Color[(int)Globals.maxIt];
         for(int i = 0;i < (2 * Globals.maxIt / 5.0);i++){
             cols[i] = new Color(255, (int)(255 * ((i * 5.0) / (2.0 * Globals.maxIt))), 0);
         }
@@ -42,7 +44,24 @@ public class DisplayMandelbrotSet {
         }
         for(int i = (int)(4 * Globals.maxIt / 5.0);i < Globals.maxIt;i++){
             cols[i] = new Color(0, (int)(255 - ((255 * ((i - (4.0 * Globals.maxIt / 5))) / (Globals.maxIt / 5.0)))), 255);
-        }
+        }*/
+        
+        ArrayList<Color> as = new ArrayList<>();
+        as.add(Color.white);
+        as.add(new Color(255, 0, 255));
+        as.add(new Color(255, 127, 255));
+        as.add(new Color(127, 127, 127));
+        as.add(Color.black);
+        
+        ArrayList<Integer> is = new ArrayList<>();
+        is.add(500);
+        is.add(1000);
+        is.add(1500);
+        
+        Globals.cols = new CustomColorScheme(as, is, 2000);
+        
+        Globals.cols.print();
+        
         board = new Color[Globals.frameHeight][Globals.frameWidth];
         numBoard = new int[Globals.frameHeight][Globals.frameWidth];
         
@@ -92,11 +111,11 @@ public class DisplayMandelbrotSet {
                     j++;
                 }
                 if(z.abs() <= 2){
-                    board[i][r] = Color.blue;
+                    board[i][r] = Globals.cols.getColor(Globals.maxIt - 1);
                     numBoard[i][r] = Globals.maxIt;
                 }
                 else{
-                    board[i][r] = cols[j - 1];
+                    board[i][r] = Globals.cols.getColor(j - 1);
                     numBoard[i][r] = j;
                 }
                 Globals.progress++;
