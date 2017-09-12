@@ -28,6 +28,7 @@ public class Component extends JComponent implements ActionListener, MouseListen
     private final Color selector;
     private final int boxWidth, boxHeight;
     public boolean updating;
+    private double textBoxOpacity;
     
     public Component(){
         timer = new Timer(10, this);
@@ -38,6 +39,7 @@ public class Component extends JComponent implements ActionListener, MouseListen
         selector = new Color(0, 0, 255, 127);
         boxWidth = (int)Math.round(0.1 * Globals.frameWidth);
         boxHeight = (int)Math.round(0.1 * Globals.frameHeight);
+        textBoxOpacity = 1.0;
     }
     
     @Override
@@ -54,12 +56,16 @@ public class Component extends JComponent implements ActionListener, MouseListen
             g.fillRect(Globals.mouseX - 3 - (boxWidth / 2), Globals.mouseY - 25 - (boxHeight / 2), boxWidth, boxHeight);
             //g.setColor(Color.white);
             //g.fillRect(0, 0, Globals.frameWidth, Globals.frameHeight);
-            g.setColor(Color.black);
-            g.setFont(font1);
-            g.drawString("Progress: " + (int)Math.round(100 * ((double)Globals.progress / (double)Globals.max)) + "%", 0, 40);
-            g.setFont(font2);
-            g.drawString(Globals.minR + " + " + Globals.minI + "i" + " to ", 0, 80);
-            g.drawString(Globals.maxR + " + " + Globals.maxI + "i", 0, 100);
+            if(Globals.textBoxVisible || Globals.textBoxFadingOut){
+                g.setColor(new Color(255, 255, 255, (int)(255.0 * textBoxOpacity)));
+                g.fillRect(0, 0, 555, 120);
+                g.setColor(new Color(0, 0, 0, (int)(255.0 * textBoxOpacity)));
+                g.setFont(font1);
+                g.drawString("Progress: " + (int)Math.round(100 * ((double)Globals.progress / (double)Globals.max)) + "%", 0, 40);
+                g.setFont(font2);
+                g.drawString(Globals.minR + " + " + Globals.minI + "i" + " to ", 0, 80);
+                g.drawString(Globals.maxR + " + " + Globals.maxI + "i", 0, 100);
+            }
             if(Globals.mouseX - 3 >= 0 && Globals.mouseX - 3 < Globals.frameWidth &&
                 Globals.mouseY - 25 >= 0 && Globals.mouseY - 25 < Globals.frameHeight    
             ){
@@ -71,6 +77,15 @@ public class Component extends JComponent implements ActionListener, MouseListen
     @Override
     public void actionPerformed(ActionEvent e) {
         repaint();
+        if(Globals.textBoxFadingOut){
+            if(textBoxOpacity <= 0.0){
+                textBoxOpacity = 1.0;
+                Globals.textBoxFadingOut = false;
+            }
+            else{
+                textBoxOpacity -= 0.01;
+            }
+        }
     }
     
     public void updateImage(Color arr[], int rowNum){
@@ -133,6 +148,11 @@ public class Component extends JComponent implements ActionListener, MouseListen
     public void mouseMoved(MouseEvent e) {
         Globals.mouseX = e.getX();
         Globals.mouseY = e.getY();
+        
+        if(Globals.mouseX - 3 >= 0 && Globals.mouseY - 25 >= 0 && Globals.mouseX - 3 <= 555 && Globals.mouseY - 25 <= 120){
+            
+        }
+        
     }
     
 }

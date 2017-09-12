@@ -9,11 +9,8 @@ import graphics.Component;
 import graphics.CustomColorScheme;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.util.ArrayList;
 import javax.swing.JFrame;
-import javax.swing.SwingWorker;
-import math.ComplexComputation;
 import math.CxNum;
 
 public class DisplayMandelbrotSet {
@@ -32,6 +29,8 @@ public class DisplayMandelbrotSet {
         Globals.minI = -1.0;
         Globals.maxI = 1.0;
         Globals.maxIt = 2000;
+        Globals.textBoxVisible = true;
+        Globals.textBoxFadingOut = false;
         /*cols = new Color[(int)Globals.maxIt];
         for(int i = 0;i < (2 * Globals.maxIt / 5.0);i++){
             cols[i] = new Color(255, (int)(255 * ((i * 5.0) / (2.0 * Globals.maxIt))), 0);
@@ -98,7 +97,7 @@ public class DisplayMandelbrotSet {
         //double redY = (102.0 / 255.0);
         //double ylG = (153.0 / 255.0);
         //double greeT = (204.0 / 255.0);
-        
+        Globals.textBoxVisible = true;
         for(int i = 0;i < Globals.frameHeight;i++){
             for(int r = 0;r < Globals.frameWidth;r++){
                 CxNum z = new CxNum(0.0, 0.0);//these are always the starting values!
@@ -122,6 +121,8 @@ public class DisplayMandelbrotSet {
             }
             display.updateImage(board[i], i);
         }
+        Globals.textBoxVisible = false;
+        Globals.textBoxFadingOut = true;
         //Globals.maxIt = ((3 * Globals.maxIt) / 2);
         display.updating = false;
     }
