@@ -9,6 +9,10 @@ import graphics.Component;
 import graphics.CustomColorScheme;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import math.CxNum;
@@ -21,8 +25,10 @@ public class DisplayMandelbrotSet {
     public static Component display;
     //private static Color[] cols;
     public static Thread generator;
+    public static boolean setUp;
     
     public static void main(String[] args) {
+        frame = new JFrame();
         setFrameSize(false);
         Globals.minR = -1.75;
         Globals.maxR = 1.0;
@@ -31,6 +37,7 @@ public class DisplayMandelbrotSet {
         Globals.maxIt = 2000;
         Globals.textBoxVisible = true;
         Globals.textBoxFadingOut = false;
+        setUp = false;
         /*cols = new Color[(int)Globals.maxIt];
         for(int i = 0;i < (2 * Globals.maxIt / 5.0);i++){
             cols[i] = new Color(255, (int)(255 * ((i * 5.0) / (2.0 * Globals.maxIt))), 0);
@@ -59,7 +66,7 @@ public class DisplayMandelbrotSet {
         
         Globals.cols = new CustomColorScheme(as, is, 2000);
         
-        Globals.cols.print();
+        //Globals.cols.print();
         
         board = new Color[Globals.frameHeight][Globals.frameWidth];
         numBoard = new int[Globals.frameHeight][Globals.frameWidth];
@@ -67,6 +74,7 @@ public class DisplayMandelbrotSet {
         display = new Component();
         startGenerator();
         setupFrame();
+        setUp = true;
         //generate();
         //display.updateImage(board);
         
@@ -114,6 +122,7 @@ public class DisplayMandelbrotSet {
                     numBoard[i][r] = Globals.maxIt;
                 }
                 else{
+                    //System.out.println(Globals.frameWidth);
                     board[i][r] = Globals.cols.getColor(j - 1);
                     numBoard[i][r] = j;
                 }
@@ -128,31 +137,50 @@ public class DisplayMandelbrotSet {
     }
     
     public static void setFrameSize(boolean fullScreen){
-        frame = new JFrame();
         if(fullScreen){
-            frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-            frame.setUndecorated(true);
-            Globals.frameWidth = frame.getBounds().width;
-            Globals.frameHeight = frame.getBounds().height;
-            System.out.println(frame.getBounds());
+            GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            Rectangle bounds = env.getMaximumWindowBounds();
+            Globals.frameWidth = bounds.width;
+            System.out.println(Globals.frameWidth);
+            Globals.frameHeight = bounds.height;
+            System.out.println(Globals.frameHeight);
         }
         else{
             Globals.frameWidth = 1000;
             Globals.frameHeight = 650;
-            frame.setSize(Globals.frameWidth + 3, Globals.frameHeight + 25);
-            frame.setMinimumSize(new Dimension(Globals.frameWidth + 3, Globals.frameHeight + 25));
         }
+        frame.setSize(Globals.frameWidth + 3, Globals.frameHeight + 25);
+        frame.setMinimumSize(new Dimension(Globals.frameWidth + 3, Globals.frameHeight + 25));
+    }
+    
+    public static void setFrameSize(int width, int height){
+        System.out.println("This was called");
+        Globals.frameWidth = width;
+        Globals.frameHeight = height;
+        //frame.setSize(Globals.frameWidth + 3, Globals.frameHeight + 25);
+        //frame.setMinimumSize(new Dimension(Globals.frameWidth + 3, Globals.frameHeight + 25));
+        //System.out.println("This was run!");
+        display.updateBounds();
+        board = new Color[Globals.frameHeight][Globals.frameWidth];
+        numBoard = new int[Globals.frameHeight][Globals.frameWidth];
+        startGenerator();
+    }
+    
+    public static void changeFrameSize(ComponentEvent e){
+        int newWidth = e.getComponent().getWidth();
+        int newHeight = e.getComponent().getHeight();
+        setFrameSize(newWidth, newHeight);
     }
     
     public static void setupFrame(){
         frame.setTitle("Mandelbrot Explorer V. 1.0");
-        frame.setResizable(true);
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         display.timer.start();
         frame.getContentPane().add(display);
         frame.addMouseListener(display);
-        frame.addMouseMotionListener(display);
+        frame.addMouseMotionListener(display);;
         frame.pack();
         frame.setVisible(true);
         //System.out.println(frame.getContentPane().getSize());

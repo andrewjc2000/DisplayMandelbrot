@@ -23,10 +23,10 @@ public class Component extends JComponent implements ActionListener, MouseListen
     MouseMotionListener {
     
     public final Timer timer;
-    private final BufferedImage pic;
+    private BufferedImage pic;
     private final Font font1, font2;
     private final Color selector;
-    private final int boxWidth, boxHeight;
+    private int boxWidth, boxHeight;
     public boolean updating;
     private double textBoxOpacity;
     
@@ -86,6 +86,16 @@ public class Component extends JComponent implements ActionListener, MouseListen
                 textBoxOpacity -= 0.01;
             }
         }
+        if(Globals.textBoxVisible && textBoxOpacity != 1.0){
+            Globals.textBoxFadingOut = false;
+            textBoxOpacity = 1.0;
+        }
+    }
+    
+    public void updateBounds(){
+        pic = new BufferedImage(Globals.frameWidth, Globals.frameHeight, BufferedImage.TYPE_INT_ARGB);
+        boxWidth = (int)Math.round(0.1 * Globals.frameWidth);
+        boxHeight = (int)Math.round(0.1 * Globals.frameHeight);
     }
     
     public void updateImage(Color arr[], int rowNum){
@@ -149,8 +159,16 @@ public class Component extends JComponent implements ActionListener, MouseListen
         Globals.mouseX = e.getX();
         Globals.mouseY = e.getY();
         
-        if(Globals.mouseX - 3 >= 0 && Globals.mouseY - 25 >= 0 && Globals.mouseX - 3 <= 555 && Globals.mouseY - 25 <= 120){
-            
+        if(!updating){
+            if(Globals.mouseX - 3 >= 0 && Globals.mouseY - 25 >= 0 && Globals.mouseX - 3 <= 555 && Globals.mouseY - 25 <= 120){
+                Globals.textBoxVisible = true;
+                textBoxOpacity = 1.0;
+                Globals.textBoxFadingOut = false;
+            }
+            else if(Globals.textBoxVisible){
+                Globals.textBoxVisible = false;
+                Globals.textBoxFadingOut = true;
+            }
         }
         
     }
