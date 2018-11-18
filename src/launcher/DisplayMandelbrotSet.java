@@ -83,11 +83,11 @@ public class DisplayMandelbrotSet {
                     j++;
                 }
                 if(z.abs() <= 2){
-                    board[i][r] = Globals.cols.getColor(Globals.maxIt - 1);
+                    board[i][r] = Globals.cols.getColor(Globals.maxIt);
                     numBoard[i][r] = Globals.maxIt;
                 }
                 else{
-                    board[i][r] = Globals.cols.getColor(j - 1);
+                    board[i][r] = Globals.cols.getColor(j);
                     numBoard[i][r] = j;
                 }
                 Globals.progress++;
