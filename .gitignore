@@ -46,3 +46,9 @@ Network Trash Folder
 Temporary Items
 .apdisk
 /dist/
+
+.idea/
+.idea/*
+out/*
+out/
+MandelbrotExplorer.iml
