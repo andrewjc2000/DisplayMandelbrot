@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package graphics;
 
 import java.awt.Color;
@@ -19,9 +14,12 @@ import javax.swing.Timer;
 import launcher.DisplayMandelbrotSet;
 import launcher.Globals;
 
+/**
+ * @author achafos
+ */
 public class Component extends JComponent implements ActionListener, MouseListener,
-    MouseMotionListener {
-    
+        MouseMotionListener {
+
     public final Timer timer;
     private BufferedImage pic;
     private final Font font1, font2;
@@ -41,37 +39,31 @@ public class Component extends JComponent implements ActionListener, MouseListen
         boxHeight = (int)Math.round(0.1 * Globals.frameHeight);
         textBoxOpacity = 1.0;
     }
-    
+
     @Override
-    protected void paintComponent(Graphics g){
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        /*if(!updating){
-            g.drawImage(pic, 0, 0, null);
-            g.setColor(selector);
-            g.fillRect(Globals.mouseX - 3 - (boxWidth / 2), Globals.mouseY - 25 - (boxHeight / 2), boxWidth, boxHeight);
-        }*/
-        //else{
-            g.drawImage(pic, 0, 0, null);
-            g.setColor(selector);
-            g.fillRect(Globals.mouseX - 3 - (boxWidth / 2), Globals.mouseY - 25 - (boxHeight / 2), boxWidth, boxHeight);
-            //g.setColor(Color.white);
-            //g.fillRect(0, 0, Globals.frameWidth, Globals.frameHeight);
-            if(Globals.textBoxVisible || Globals.textBoxFadingOut){
-                g.setColor(new Color(255, 255, 255, (int)(255.0 * textBoxOpacity)));
-                g.fillRect(0, 0, 555, 120);
-                g.setColor(new Color(0, 0, 0, (int)(255.0 * textBoxOpacity)));
-                g.setFont(font1);
-                g.drawString("Progress: " + (int)Math.round(100 * ((double)Globals.progress / (double)Globals.max)) + "%", 0, 40);
-                g.setFont(font2);
-                g.drawString(Globals.minR + " + " + Globals.minI + "i" + " to ", 0, 80);
-                g.drawString(Globals.maxR + " + " + Globals.maxI + "i", 0, 100);
-            }
-            if(Globals.mouseX - 3 >= 0 && Globals.mouseX - 3 < Globals.frameWidth &&
-                Globals.mouseY - 25 >= 0 && Globals.mouseY - 25 < Globals.frameHeight    
-            ){
-                g.drawString("" + DisplayMandelbrotSet.numBoard[Globals.mouseY - 25][Globals.mouseX - 3], Globals.mouseX - 3, Globals.mouseY - 45);
-            }
-        //}
+        g.drawImage(pic, 0, 0, null);
+        g.setColor(selector);
+        g.fillRect(Globals.mouseX - 3 - (boxWidth / 2), Globals.mouseY - 25 - (boxHeight / 2), boxWidth, boxHeight);
+        if (Globals.textBoxVisible || Globals.textBoxFadingOut) {
+            g.setColor(new Color(255, 255, 255, (int) (255.0 * textBoxOpacity)));
+            g.fillRect(0, 0, 555, 120);
+            g.setColor(new Color(0, 0, 0, (int) (255.0 * textBoxOpacity)));
+            g.setFont(font1);
+            g.drawString("Progress: " + (int) Math.round(100 * ((double) Globals.progress / (double) Globals.max)) + "%", 0, 40);
+            g.setFont(font2);
+            g.drawString(Globals.minR + " + " + Globals.minI + "i" + " to ", 0, 80);
+            g.drawString(Globals.maxR + " + " + Globals.maxI + "i", 0, 100);
+        }
+        if (Globals.mouseX - 3 >= 0 && Globals.mouseX - 3 < Globals.frameWidth &&
+                Globals.mouseY - 25 >= 0 && Globals.mouseY - 25 < Globals.frameHeight
+        ) {
+            g.drawString("" + DisplayMandelbrotSet.numBoard[Globals.mouseY - 25][Globals.mouseX - 3],
+                    Globals.mouseX - 3,
+                    Globals.mouseY - 45
+            );
+        }
     }
     
     @Override
@@ -99,11 +91,9 @@ public class Component extends JComponent implements ActionListener, MouseListen
     }
     
     public void updateImage(Color arr[], int rowNum){
-        //for(int y = 0;y < Globals.frameHeight;y++){
         for(int x = 0;x < Globals.frameWidth;x++){
             pic.setRGB(x, rowNum, arr[x].getRGB());
         }
-        //}
     }
     
     public void regenerate(){
@@ -118,7 +108,6 @@ public class Component extends JComponent implements ActionListener, MouseListen
             Globals.minI = minI;
             Globals.maxI = maxI;
             DisplayMandelbrotSet.startGenerator();
-            //updateImage(DisplayMandelbrotSet.board);
         }
     }
 
@@ -130,29 +119,19 @@ public class Component extends JComponent implements ActionListener, MouseListen
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void mousePressed(MouseEvent e) {}
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void mouseReleased(MouseEvent e) {}
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void mouseEntered(MouseEvent e) {}
 
     @Override
-    public void mouseExited(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void mouseExited(MouseEvent e) {}
 
     @Override
-    public void mouseDragged(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void mouseDragged(MouseEvent e) {}
 
     @Override
     public void mouseMoved(MouseEvent e) {

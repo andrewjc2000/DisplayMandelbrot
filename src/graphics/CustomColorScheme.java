@@ -1,14 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package graphics;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import launcher.Globals;
 
+/**
+ * @author achafos
+ */
 public class CustomColorScheme {
 
     private final ArrayList<Color> val;
@@ -63,22 +60,21 @@ public class CustomColorScheme {
             }
             val.add(cols.get(cols.size() - 1));
         }
-        
-        //for(int i = 0;i < pos.get(1);i++){
-        //    
-        //}
+
         
     }
-    
-    public void print(){
+
+    @Override
+    public String toString(){
+        String s = "";
         for(int i = 0;i < val.size();i++){
-            System.out.println(
+            s += (
                 val.get(i).getRed() + ", " + 
                 val.get(i).getGreen() + ", " + 
-                val.get(i).getBlue()
+                val.get(i).getBlue() + "\n"
             );
         }
-        System.out.println(val.size());
+        return s + "\n" + val.size();
     }
     
     public Color getColor(int position){

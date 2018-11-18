@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package math;
 
 /**
- *
- * @author 18achafos
+ * @author achafos
  */
 public class ComplexComputation {
     
@@ -24,7 +18,7 @@ public class ComplexComputation {
     }
     
     public static CxNum cSin(CxNum num){
-        //sin(a+bi)=sinacoshb+icosasinhb
+        //sin(a+bi)=sin(a) * cosh(b) +i cos(a) * sinh(b)
         return new CxNum(Math.sin(num.r) * Math.cosh(num.i), Math.cos(num.r) * Math.sinh(num.i));
     }
 }
