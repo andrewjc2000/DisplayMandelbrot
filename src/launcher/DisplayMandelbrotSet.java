@@ -2,14 +2,13 @@ package launcher;
 
 import graphics.Component;
 import graphics.CustomColorScheme;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
+import math.ComplexComputation;
+import math.CxNum;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
-import javax.swing.JFrame;
-import math.CxNum;
 
 /**
  * @author achafos
@@ -57,6 +56,8 @@ public class DisplayMandelbrotSet {
         startGenerator();
         setupFrame();
         setUp = true;
+        Globals.frameHeight = 650;
+        Globals.frameWidth = 1000;
     }
     
     public static void startGenerator(){
@@ -73,16 +74,11 @@ public class DisplayMandelbrotSet {
         Globals.textBoxVisible = true;
         for(int i = 0;i < Globals.frameHeight;i++){
             for(int r = 0;r < Globals.frameWidth;r++){
-                CxNum z = new CxNum(0.0, 0.0);//these are always the starting values!
                 CxNum c = new CxNum(
                         Globals.minR + (r * (Globals.maxR - Globals.minR) / (double)Globals.frameWidth), 
                         Globals.minI + (i * (Globals.maxI - Globals.minI) / (double)Globals.frameHeight));
-                int j = 0;
-                while(z.abs() < 2 && j < Globals.maxIt){
-                    z = math.ComplexComputation.mFunction(z, c);
-                    j++;
-                }
-                if(z.abs() <= 2){
+                int j = ComplexComputation.getMandelbrotValue(c, Globals.maxIt);
+                if(j == Globals.maxIt){
                     board[i][r] = Globals.cols.getColor(Globals.maxIt);
                     numBoard[i][r] = Globals.maxIt;
                 }
