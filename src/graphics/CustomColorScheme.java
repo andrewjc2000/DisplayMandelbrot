@@ -23,9 +23,9 @@ public class CustomColorScheme {
             throw new InputMismatchException("Integer index array must have either exactly the same # of elements"
                     + " as the Color array or exactly 2 less."
             );
-        } else if (cols.size() == pos.size() && pos.get(0) != 0) {
-            throw new InvalidParameterException("The index array must begin with 0 if its size equals that of the" +
-                    "Color array");
+        } else if (cols.size() == pos.size() && (pos.get(0) != 0 || pos.get(pos.size() - 1) != upperBound)) {
+            throw new InvalidParameterException("The index array must begin with 0 and end with upperBound if " +
+                    "its size equals that of the Color array");
         }
 
         for (int i = 0; i < pos.size() - 1; i++) {
